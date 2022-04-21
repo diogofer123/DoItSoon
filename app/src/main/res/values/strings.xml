@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DoItSoon</string>
+    <string name="to_do">TO-DO</string>
+    <string name="write_task">Write task</string>
+</resources>
