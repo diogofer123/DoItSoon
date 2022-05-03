@@ -35,7 +35,3 @@ class TaskAdapter(private var listOfTasks: List<TaskItem>) : RecyclerView.Adapte
 
     }
 }
-
-interface clickActions {
-    fun onTaskClick()
-}
