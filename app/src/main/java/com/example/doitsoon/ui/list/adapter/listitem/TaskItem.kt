@@ -7,7 +7,7 @@ import java.text.DateFormat
 @Entity(tableName = "task_table")
 data class TaskItem (
     val taskName: String,
-    val isPriority: Boolean,
+    val isPriority: Boolean = false,
     val creationTime: Long = System.currentTimeMillis(),
     @PrimaryKey(autoGenerate = true) val Id : Int = 0
 ){

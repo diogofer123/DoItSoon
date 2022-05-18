@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.doitsoon.R
 import com.example.doitsoon.databinding.ListFragmentBinding
 import com.example.doitsoon.ui.list.adapter.TaskAdapter
@@ -22,6 +21,8 @@ class ListFragment : Fragment(R.layout.list_fragment) {
     }
 
     private lateinit var binding: ListFragmentBinding
+
+    private val viewModel: ListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
