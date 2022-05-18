@@ -6,4 +6,6 @@ import javax.inject.Inject
 
 class ListViewModel @Inject constructor(private val taskDao: TaskDao) : ViewModel() {
 
+    val tasks = taskDao.getTasks()
+    
 }

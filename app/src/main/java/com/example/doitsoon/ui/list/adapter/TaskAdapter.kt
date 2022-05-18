@@ -3,11 +3,14 @@ package com.example.doitsoon.ui.list.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.doitsoon.databinding.TaskModelBinding
 import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 
-class TaskAdapter(private var listOfTasks: List<TaskItem>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class TaskAdapter(private var listOfTasks: List<TaskItem>) : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallBack()) {
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -34,4 +37,13 @@ class TaskAdapter(private var listOfTasks: List<TaskItem>) : RecyclerView.Adapte
         }
 
     }
+
+    class DiffCallBack: DiffUtil.ItemCallback<TaskItem>(){
+
+        override fun areItemsTheSame(oldItem: TaskItem, newItem: TaskItem): Boolean = oldItem.Id == newItem.Id
+
+        override fun areContentsTheSame(oldItem: TaskItem, newItem: TaskItem): Boolean = oldItem == newItem
+
+    }
 }
+

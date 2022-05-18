@@ -49,6 +49,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
         with(binding.taskRecyclerView) {
             layoutManager = LinearLayoutManager(context)
             adapter = TaskAdapter(tasks)
+            setHasFixedSize(true)
         }
     }
 
