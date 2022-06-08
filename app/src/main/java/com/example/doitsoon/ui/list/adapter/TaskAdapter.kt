@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.doitsoon.databinding.TaskModelBinding
 import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 
-class TaskAdapter(private var listOfTasks: List<TaskItem>) : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallBack()) {
+class TaskAdapter() : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallBack()) {
 
 
 
@@ -19,12 +19,8 @@ class TaskAdapter(private var listOfTasks: List<TaskItem>) : ListAdapter<TaskIte
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        val taskItem : TaskItem =listOfTasks[position]
+        val taskItem = getItem(position)
         holder.bind(taskItem)
-    }
-
-    override fun getItemCount(): Int {
-        return listOfTasks.size
     }
 
     class TaskViewHolder(private val binding: TaskModelBinding) : RecyclerView.ViewHolder(binding.root) {

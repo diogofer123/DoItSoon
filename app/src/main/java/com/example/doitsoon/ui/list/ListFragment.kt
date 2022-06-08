@@ -1,6 +1,7 @@
 package com.example.doitsoon.ui.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
 
     private val viewModel: ListViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,18 +40,21 @@ class ListFragment : Fragment(R.layout.list_fragment) {
         super.onViewCreated(view, savedInstanceState)
         initializeList()
         setListeners()
+        setObservers()
     }
 
     private fun initializeList() {
-        val tasks = listOf(
-            TaskItem("Ir ao médico", false),
-            TaskItem("Ir ás comrpas", false), TaskItem("Arrumar a casa", true)
-        )
 
+        val taskAdapter = TaskAdapter()
         with(binding.taskRecyclerView) {
             layoutManager = LinearLayoutManager(context)
-            adapter = TaskAdapter(tasks)
+            adapter = taskAdapter
             setHasFixedSize(true)
+        }
+
+        viewModel.tasks.observe(viewLifecycleOwner){
+            Log.d("SIZE:",it.size.toString())
+            taskAdapter.submitList(it)
         }
     }
 
@@ -61,6 +66,10 @@ class ListFragment : Fragment(R.layout.list_fragment) {
 
             }
         }
+    }
+
+    private fun setObservers(){
+
     }
 
 }

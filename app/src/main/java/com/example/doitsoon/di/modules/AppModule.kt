@@ -28,7 +28,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesDatabase(app: Application,callback: RoomDatabase.Callback) =
+    fun providesDatabase(app: Application,callback: TaskDatabase.Callback) =
         Room.databaseBuilder(app,TaskDatabase::class.java,"tasks_database")
             .fallbackToDestructiveMigration()
             .addCallback(callback)
@@ -42,6 +42,7 @@ object AppModule {
     @Provides
     @Singleton
     fun providesApplicationScope() = CoroutineScope(SupervisorJob())
+
 }
 
 @Retention(AnnotationRetention.RUNTIME)
