@@ -2,13 +2,24 @@ package com.example.doitsoon.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.doitsoon.ui.list.ListViewModel
 import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
+import java.util.concurrent.Flow
 
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM task_table WHERE taskName LIKE '%' || :searchQuery || '%' ORDER BY isPriority")
-    fun getTasks(searchQuery: String): LiveData<List<TaskItem>>
+    fun getTasks(query: String,sortOrder: ListViewModel.SortOrder, hideComplete: Boolean) : LiveData<List<TaskItem>> =
+        when(sortOrder){
+            ListViewModel.SortOrder.BY_DATE -> getTasksSortedByDate(searchQuery = query, hideComplete = hideComplete)
+            ListViewModel.SortOrder.BY_NAME_DESC -> getTasksSortedByName(searchQuery = query, hideComplete = hideComplete)
+        }
+
+    @Query("SELECT * FROM task_table WHERE (isCompleted != :hideComplete OR isCompleted = 0) AND taskName LIKE '%' || :searchQuery || '%' ORDER BY isPriority DESC,(taskName)")
+    fun getTasksSortedByName(searchQuery: String,hideComplete: Boolean): LiveData<List<TaskItem>>
+
+    @Query("SELECT * FROM task_table WHERE (isCompleted != :hideComplete OR isCompleted = 0) AND taskName LIKE '%' || :searchQuery || '%' ORDER BY isPriority DESC,(creationTime)")
+    fun getTasksSortedByDate(searchQuery: String, hideComplete: Boolean): LiveData<List<TaskItem>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskItem)
