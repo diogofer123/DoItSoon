@@ -8,6 +8,7 @@ import java.text.DateFormat
 data class TaskItem (
     val taskName: String,
     val isPriority: Boolean = false,
+    val isCompleted: Boolean = false,
     val creationTime: Long = System.currentTimeMillis(),
     @PrimaryKey(autoGenerate = true) val Id : Int = 0
 ){

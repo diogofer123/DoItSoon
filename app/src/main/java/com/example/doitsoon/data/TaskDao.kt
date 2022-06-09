@@ -7,8 +7,8 @@ import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM task_table")
-    fun getTasks(): LiveData<List<TaskItem>>
+    @Query("SELECT * FROM task_table WHERE taskName LIKE '%' || :searchQuery || '%' ORDER BY isPriority")
+    fun getTasks(searchQuery: String): LiveData<List<TaskItem>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskItem)

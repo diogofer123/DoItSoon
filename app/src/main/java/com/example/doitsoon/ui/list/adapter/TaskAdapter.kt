@@ -1,5 +1,6 @@
 package com.example.doitsoon.ui.list.adapter
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -29,6 +30,15 @@ class TaskAdapter() : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallB
             with(binding){
                 taskText.text = taskItem.taskName
                 priorityBell.isVisible = taskItem.isPriority
+                isCompleted.isChecked = taskItem.isCompleted
+            }
+
+            if(taskItem.isCompleted){
+                with(binding){
+                    taskText.apply {
+                        paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    }
+                }
             }
         }
 
