@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.doitsoon.data.PreferencesManager
 import com.example.doitsoon.data.SortOrder
 import com.example.doitsoon.data.TaskDao
+import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -19,7 +20,6 @@ import javax.inject.Inject
 class ListViewModel @Inject constructor(private val taskDao: TaskDao,private val preferencesManager: PreferencesManager) : ViewModel() {
 
     val searchQuery = MutableStateFlow("")
-
 
     val preferencesFlow = preferencesManager.preferencesFlow
 
@@ -44,6 +44,12 @@ class ListViewModel @Inject constructor(private val taskDao: TaskDao,private val
 
     fun onHideCompletedClicked(hideCompleted: Boolean, context: Context) = viewModelScope.launch {
         preferencesManager.updateHideCompleted(hideCompleted,context)
+    }
+
+    fun onTaskCheckedChanged(taskItem: TaskItem, checked: Boolean) {
+        viewModelScope.launch {
+            taskDao.updateTask(taskItem.copy(isCompleted = checked))
+        }
     }
 
 }

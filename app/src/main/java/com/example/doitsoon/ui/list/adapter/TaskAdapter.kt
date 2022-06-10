@@ -10,13 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.doitsoon.databinding.TaskModelBinding
 import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 
-class TaskAdapter() : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallBack()) {
-
+class TaskAdapter(private val clickActions: onTaskClickedListener) : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallBack()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val binding = TaskModelBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return TaskViewHolder(binding)
+        return TaskViewHolder(binding,clickActions)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
@@ -24,7 +23,30 @@ class TaskAdapter() : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallB
         holder.bind(taskItem)
     }
 
-    class TaskViewHolder(private val binding: TaskModelBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class TaskViewHolder(private val binding: TaskModelBinding, private val clickActions: onTaskClickedListener) : RecyclerView.ViewHolder(binding.root) {
+
+
+        init {
+            binding.apply {
+                root.setOnClickListener{
+                    val position = adapterPosition
+                    if(position != RecyclerView.NO_POSITION){
+                        val task = getItem(position)
+                        clickActions.onItemClick(task)
+                    }
+
+                }
+                isCompleted.setOnClickListener {
+                    val position = adapterPosition
+                    //if the position is different of -1
+                    if(position != RecyclerView.NO_POSITION){
+                        val task = getItem(position)
+                        clickActions.onItemCheckBoxClicked(task,isCompleted.isChecked)
+                    }
+                }
+            }
+        }
+
 
         fun bind(taskItem: TaskItem) {
             with(binding){
@@ -40,6 +62,9 @@ class TaskAdapter() : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallB
                     }
                 }
             }
+
+            clickActions.onItemClick(taskItem)
+            clickActions.onItemCheckBoxClicked(taskItem,taskItem.isCompleted)
         }
 
     }
@@ -50,6 +75,11 @@ class TaskAdapter() : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallB
 
         override fun areContentsTheSame(oldItem: TaskItem, newItem: TaskItem): Boolean = oldItem == newItem
 
+    }
+
+    interface onTaskClickedListener {
+        fun onItemClick(taskItem : TaskItem)
+        fun onItemCheckBoxClicked(taskItem: TaskItem,isChecked: Boolean)
     }
 }
 

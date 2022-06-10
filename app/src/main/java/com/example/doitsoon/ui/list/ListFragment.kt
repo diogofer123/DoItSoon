@@ -11,6 +11,7 @@ import com.example.doitsoon.R
 import com.example.doitsoon.data.SortOrder
 import com.example.doitsoon.databinding.ListFragmentBinding
 import com.example.doitsoon.ui.list.adapter.TaskAdapter
+import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 import com.example.doitsoon.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -18,7 +19,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ListFragment : Fragment(R.layout.list_fragment) {
+class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.onTaskClickedListener {
 
     companion object {
         fun newInstance() = ListFragment()
@@ -88,7 +89,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
 
     private fun initializeList() {
 
-        val taskAdapter = TaskAdapter()
+        val taskAdapter = TaskAdapter(this)
         with(binding.taskRecyclerView) {
             layoutManager = LinearLayoutManager(context)
             adapter = taskAdapter
@@ -109,6 +110,12 @@ class ListFragment : Fragment(R.layout.list_fragment) {
 
             }
         }
+    }
+
+    override fun onItemClick(taskItem: TaskItem) {}
+
+    override fun onItemCheckBoxClicked(taskItem: TaskItem, isChecked: Boolean) {
+        viewModel.onTaskCheckedChanged(taskItem,isChecked)
     }
 
 }
