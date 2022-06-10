@@ -9,10 +9,10 @@ import java.util.concurrent.Flow
 @Dao
 interface TaskDao {
 
-    fun getTasks(query: String,sortOrder: ListViewModel.SortOrder, hideComplete: Boolean) : LiveData<List<TaskItem>> =
+    fun getTasks(query: String,sortOrder: SortOrder, hideComplete: Boolean) : LiveData<List<TaskItem>> =
         when(sortOrder){
-            ListViewModel.SortOrder.BY_DATE -> getTasksSortedByDate(searchQuery = query, hideComplete = hideComplete)
-            ListViewModel.SortOrder.BY_NAME_DESC -> getTasksSortedByName(searchQuery = query, hideComplete = hideComplete)
+            SortOrder.BY_DATE -> getTasksSortedByDate(searchQuery = query, hideComplete = hideComplete)
+            SortOrder.BY_NAME_DESC -> getTasksSortedByName(searchQuery = query, hideComplete = hideComplete)
         }
 
     @Query("SELECT * FROM task_table WHERE (isCompleted != :hideComplete OR isCompleted = 0) AND taskName LIKE '%' || :searchQuery || '%' ORDER BY isPriority DESC,(taskName)")

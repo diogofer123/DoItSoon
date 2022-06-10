@@ -1,16 +1,15 @@
 package com.example.doitsoon.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.doitsoon.R
+import com.example.doitsoon.data.SortOrder
 import com.example.doitsoon.databinding.ListFragmentBinding
 import com.example.doitsoon.ui.list.adapter.TaskAdapter
-import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 import com.example.doitsoon.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -58,16 +57,16 @@ class ListFragment : Fragment(R.layout.list_fragment) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
        return when(item.itemId){
             R.id.action_sort_by_name -> {
-                viewModel.sortOrder.value = ListViewModel.SortOrder.BY_NAME_DESC
+                context?.let { viewModel.onSortOrderSelected(SortOrder.BY_NAME_DESC, it) }
                 true
             }
             R.id.action_sort_by_date -> {
-                viewModel.sortOrder.value = ListViewModel.SortOrder.BY_DATE
+                context?.let { viewModel.onSortOrderSelected(SortOrder.BY_DATE, it) }
                 true
             }
             R.id.action_hide_completed -> {
                 item.isChecked = !item.isChecked
-                viewModel.hideCompleted.value = item.isChecked
+                context?.let { viewModel.onHideCompletedClicked(item.isChecked, it) }
                 true
             }
             R.id.action_delete_completed ->{
