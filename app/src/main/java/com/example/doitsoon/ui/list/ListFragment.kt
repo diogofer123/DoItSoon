@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -127,11 +128,7 @@ class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.onTaskClickedL
     private fun setListeners(){
         with(binding){
             addButton.setOnClickListener {
-                AddEditTaskDialogFragment(
-                    onSaveClickListener = { task ->
-                        viewModel.addTask(task)
-                    }
-                ).show(parentFragmentManager,"Dialog")
+                viewModel.onAddNewTaskEvent()
             }
         }
     }
@@ -148,12 +145,24 @@ class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.onTaskClickedL
                             }
                             .show()
                     }
+                    is ListViewModel.TaskEvents.AddNewTaskEvent -> {
+                        val action = ListFragmentDirections.actionListFragment2ToAddEditTaskDialogFragment(null,"Add Task")
+                        findNavController().navigate(action)
+                    }
+
+                    is ListViewModel.TaskEvents.UpdateTaskEvent -> {
+                        val action = ListFragmentDirections.actionListFragment2ToAddEditTaskDialogFragment(event.task,"Edit Task")
+                        findNavController().navigate(action)
+                    }
+                    ListViewModel.TaskEvents.NoEvents -> {}
                 }
             }
         }
     }
 
-    override fun onItemClick(taskItem: TaskItem) {}
+    override fun onItemClick(taskItem: TaskItem) {
+        viewModel.onEditNewTaskEvent(taskItem)
+    }
 
     override fun onItemCheckBoxClicked(taskItem: TaskItem, isChecked: Boolean) {
         viewModel.onTaskCheckedChanged(taskItem,isChecked)

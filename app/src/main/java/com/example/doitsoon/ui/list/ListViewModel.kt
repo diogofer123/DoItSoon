@@ -19,7 +19,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListViewModel @Inject constructor(private val taskDao: TaskDao,private val preferencesManager: PreferencesManager) : ViewModel() {
+class ListViewModel @Inject constructor(
+    private val taskDao: TaskDao,
+    private val preferencesManager: PreferencesManager, ) : ViewModel() {
 
     val searchQuery = MutableStateFlow("")
 
@@ -76,8 +78,19 @@ class ListViewModel @Inject constructor(private val taskDao: TaskDao,private val
         }
     }
 
+    fun onAddNewTaskEvent() = viewModelScope.launch {
+        taskEventChannel.send(TaskEvents.AddNewTaskEvent)
+    }
+
+    fun onEditNewTaskEvent(task : TaskItem) = viewModelScope.launch {
+        taskEventChannel.send(TaskEvents.UpdateTaskEvent(task))
+    }
+
     sealed class TaskEvents{
         data class ShowUndoDeleteTaskEvent(val task: TaskItem) : TaskEvents()
+        object AddNewTaskEvent : TaskEvents()
+        data class UpdateTaskEvent(val task: TaskItem) : TaskEvents()
+        object NoEvents : TaskEvents()
     }
 
 }

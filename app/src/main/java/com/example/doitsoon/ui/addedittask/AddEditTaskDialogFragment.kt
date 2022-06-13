@@ -5,11 +5,16 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.example.doitsoon.databinding.AddEditTaskDialogFragmentBinding
-import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
+import dagger.hilt.android.AndroidEntryPoint
 
-class AddEditTaskDialogFragment(private val onSaveClickListener : (TaskItem) -> Unit) : DialogFragment() {
+@AndroidEntryPoint
+class AddEditTaskDialogFragment() : DialogFragment() {
+
+    private val viewModel: AddEditTaskDialogViewModel by viewModels()
 
     private lateinit var binding : AddEditTaskDialogFragmentBinding
 
@@ -20,10 +25,15 @@ class AddEditTaskDialogFragment(private val onSaveClickListener : (TaskItem) -> 
         val builder = AlertDialog.Builder(requireActivity())
         builder.setView(binding.root)
 
-        binding.saveButton.setOnClickListener {
-            onSaveClickListener.invoke(TaskItem(binding.editTextTask.text.toString(),binding.priorityCheckBox.isChecked))
-            dismiss()
+        with(binding){
+            editTextTask.setText(viewModel.taskName)
+            priorityCheckBox.isChecked = viewModel.taskImportance
+            priorityCheckBox.jumpDrawablesToCurrentState()
+            createdTextView.isVisible = viewModel.task != null
+            createdTextView.text = "Created - ${viewModel.task?.creationTime.toString()}"
         }
+
+
 
         val dialog = builder.create()
         dialog.window!!.setGravity(Gravity.CENTER)
