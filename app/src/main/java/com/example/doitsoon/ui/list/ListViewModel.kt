@@ -10,9 +10,11 @@ import com.example.doitsoon.data.SortOrder
 import com.example.doitsoon.data.TaskDao
 import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +24,9 @@ class ListViewModel @Inject constructor(private val taskDao: TaskDao,private val
     val searchQuery = MutableStateFlow("")
 
     val preferencesFlow = preferencesManager.preferencesFlow
+
+    private val taskEventChannel = Channel<TaskEvents>()
+    val taskEvents = taskEventChannel.receiveAsFlow()
 
     //flatMapLatest is a flow operator
     //detects when the searchQuery changes and pass it to the function in order to do the search
@@ -50,6 +55,29 @@ class ListViewModel @Inject constructor(private val taskDao: TaskDao,private val
         viewModelScope.launch {
             taskDao.updateTask(taskItem.copy(isCompleted = checked))
         }
+    }
+
+    fun onTaskSwipe(task: TaskItem) {
+        viewModelScope.launch {
+            taskDao.deleteTask(task)
+            taskEventChannel.send(TaskEvents.ShowUndoDeleteTaskEvent(task))
+        }
+    }
+
+    fun undoDeletedTask(task: TaskItem) {
+        viewModelScope.launch {
+            taskDao.insertTask(task)
+        }
+    }
+
+    fun addTask(task: TaskItem){
+        viewModelScope.launch {
+            taskDao.insertTask(task)
+        }
+    }
+
+    sealed class TaskEvents{
+        data class ShowUndoDeleteTaskEvent(val task: TaskItem) : TaskEvents()
     }
 
 }

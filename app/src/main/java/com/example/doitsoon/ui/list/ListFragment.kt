@@ -2,17 +2,22 @@ package com.example.doitsoon.ui.list
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.doitsoon.R
 import com.example.doitsoon.data.SortOrder
 import com.example.doitsoon.databinding.ListFragmentBinding
+import com.example.doitsoon.ui.addedittask.AddEditTaskDialogFragment
 import com.example.doitsoon.ui.list.adapter.TaskAdapter
 import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 import com.example.doitsoon.util.onQueryTextChanged
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
@@ -45,6 +50,7 @@ class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.onTaskClickedL
         initializeList()
         setListeners()
         setHasOptionsMenu(true)
+        setObservers()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -100,14 +106,49 @@ class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.onTaskClickedL
             taskAdapter.submitList(it)
         }
 
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val task = taskAdapter.currentList[viewHolder.adapterPosition]
+                viewModel.onTaskSwipe(task)
+            }
+
+        }).attachToRecyclerView(binding.taskRecyclerView)
+
     }
 
     private fun setListeners(){
-
         with(binding){
             addButton.setOnClickListener {
-                //Add task to the list
+                AddEditTaskDialogFragment(
+                    onSaveClickListener = { task ->
+                        viewModel.addTask(task)
+                    }
+                ).show(parentFragmentManager,"Dialog")
+            }
+        }
+    }
 
+
+    private fun setObservers(){
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.taskEvents.collect { event ->
+                when(event){
+                    is ListViewModel.TaskEvents.ShowUndoDeleteTaskEvent -> {
+                        Snackbar.make(requireView(),"Task Deleted",Snackbar.LENGTH_LONG)
+                            .setAction("UNDO"){
+                                viewModel.undoDeletedTask(event.task)
+                            }
+                            .show()
+                    }
+                }
             }
         }
     }
