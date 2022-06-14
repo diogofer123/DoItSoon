@@ -21,8 +21,7 @@
         <argument
             android:name="taskItem"
             app:argType="com.example.doitsoon.ui.list.adapter.listitem.TaskItem"
-            app:nullable="true"
-            />
+            app:nullable="true" />
         <argument
             android:name="title"
             app:argType="string" />

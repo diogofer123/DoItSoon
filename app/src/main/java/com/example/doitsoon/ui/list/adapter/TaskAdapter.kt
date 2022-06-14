@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.doitsoon.databinding.TaskModelBinding
 import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 
-class TaskAdapter(private val clickActions: onTaskClickedListener) : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallBack()) {
+class TaskAdapter(private val clickActions: OnTaskClickedListener) : ListAdapter<TaskItem,TaskAdapter.TaskViewHolder>(DiffCallBack()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -23,8 +23,7 @@ class TaskAdapter(private val clickActions: onTaskClickedListener) : ListAdapter
         holder.bind(taskItem)
     }
 
-    inner class TaskViewHolder(private val binding: TaskModelBinding, private val clickActions: onTaskClickedListener) : RecyclerView.ViewHolder(binding.root) {
-
+    inner class TaskViewHolder(private val binding: TaskModelBinding, private val clickActions: OnTaskClickedListener) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.apply {
@@ -62,9 +61,6 @@ class TaskAdapter(private val clickActions: onTaskClickedListener) : ListAdapter
                     }
                 }
             }
-
-            clickActions.onItemClick(taskItem)
-            clickActions.onItemCheckBoxClicked(taskItem,taskItem.isCompleted)
         }
 
     }
@@ -77,7 +73,7 @@ class TaskAdapter(private val clickActions: onTaskClickedListener) : ListAdapter
 
     }
 
-    interface onTaskClickedListener {
+    interface OnTaskClickedListener {
         fun onItemClick(taskItem : TaskItem)
         fun onItemCheckBoxClicked(taskItem: TaskItem,isChecked: Boolean)
     }

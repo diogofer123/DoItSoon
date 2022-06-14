@@ -2,7 +2,6 @@ package com.example.doitsoon.ui.list
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.doitsoon.R
 import com.example.doitsoon.data.SortOrder
 import com.example.doitsoon.databinding.ListFragmentBinding
-import com.example.doitsoon.ui.addedittask.AddEditTaskDialogFragment
 import com.example.doitsoon.ui.list.adapter.TaskAdapter
 import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 import com.example.doitsoon.util.onQueryTextChanged
@@ -25,11 +23,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.onTaskClickedListener {
-
-    companion object {
-        fun newInstance() = ListFragment()
-    }
+class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.OnTaskClickedListener {
 
     private lateinit var binding: ListFragmentBinding
 

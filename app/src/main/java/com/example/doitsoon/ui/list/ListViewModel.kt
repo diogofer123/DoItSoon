@@ -72,12 +72,6 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun addTask(task: TaskItem){
-        viewModelScope.launch {
-            taskDao.insertTask(task)
-        }
-    }
-
     fun onAddNewTaskEvent() = viewModelScope.launch {
         taskEventChannel.send(TaskEvents.AddNewTaskEvent)
     }
