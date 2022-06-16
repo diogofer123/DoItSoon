@@ -1,5 +1,6 @@
 package com.example.doitsoon.ui.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -82,7 +83,7 @@ class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.OnTaskClickedL
                 true
             }
             R.id.action_delete_completed ->{
-
+                viewModel.onDeleteAllCompletedTasks()
                 true
             }
            else -> super.onOptionsItemSelected(item)
@@ -155,11 +156,15 @@ class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.OnTaskClickedL
                         val action = ListFragmentDirections.actionListFragment2ToAddEditTaskDialogFragment(event.task,"Edit Task")
                         findNavController().navigate(action)
                     }
-                    ListViewModel.TaskEvents.NoEvents -> {}
+                    ListViewModel.TaskEvents.DeleteAllCompletedTaskEvent -> {
+                        val action = ListFragmentDirections.actionGlobalDeleteDialogFragment()
+                        findNavController().navigate(action)
+                    }
                 }
             }
         }
     }
+
 
     override fun onItemClick(taskItem: TaskItem) {
         viewModel.onEditNewTaskEvent(taskItem)

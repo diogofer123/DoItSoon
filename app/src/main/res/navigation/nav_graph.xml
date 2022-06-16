@@ -26,4 +26,8 @@
             android:name="title"
             app:argType="string" />
     </dialog>
+    <dialog
+        android:id="@+id/deleteDialogFragment"
+        android:name="com.example.doitsoon.ui.deletetasksdialog.DeleteDialogFragment"
+        android:label="DeleteDialogFragment" /><action android:id="@+id/action_global_deleteDialogFragment" app:destination="@id/deleteDialogFragment"/>
 </navigation>

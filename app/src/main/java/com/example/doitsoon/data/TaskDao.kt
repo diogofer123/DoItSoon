@@ -1,5 +1,6 @@
 package com.example.doitsoon.data
 
+import android.os.FileObserver.DELETE
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.doitsoon.ui.list.ListViewModel
@@ -29,4 +30,7 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteTask(task: TaskItem)
+
+    @Query("DELETE FROM task_table WHERE isCompleted = 1")
+    fun deleteAllCompletedTAsks()
 }

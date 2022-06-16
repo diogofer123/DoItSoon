@@ -11,10 +11,7 @@ import com.example.doitsoon.data.TaskDao
 import com.example.doitsoon.ui.list.adapter.listitem.TaskItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -80,11 +77,17 @@ class ListViewModel @Inject constructor(
         taskEventChannel.send(TaskEvents.UpdateTaskEvent(task))
     }
 
+    fun onDeleteAllCompletedTasks() = viewModelScope.launch{
+        taskEventChannel.send(TaskEvents.DeleteAllCompletedTaskEvent)
+    }
+
+
     sealed class TaskEvents{
         data class ShowUndoDeleteTaskEvent(val task: TaskItem) : TaskEvents()
         object AddNewTaskEvent : TaskEvents()
         data class UpdateTaskEvent(val task: TaskItem) : TaskEvents()
-        object NoEvents : TaskEvents()
+        object DeleteAllCompletedTaskEvent : TaskEvents()
+
     }
 
 }
