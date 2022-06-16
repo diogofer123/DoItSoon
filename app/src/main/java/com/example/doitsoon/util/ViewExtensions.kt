@@ -7,7 +7,6 @@ inline fun SearchView.onQueryTextChanged(crossinline listener: (String) -> Unit)
     this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
             //triggered when something is submited on the text field(no need for this app)
-
             return true
         }
 

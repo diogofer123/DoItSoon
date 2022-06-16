@@ -1,32 +1,9 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="60dp"
-    android:height="60dp"
-    android:viewportWidth="60"
-    android:viewportHeight="60">
+    android:width="200.91dp"
+    android:height="200.91dp"
+    android:viewportWidth="300.91"
+    android:viewportHeight="300.91">
   <path
-      android:pathData="m30,4.688c-12.713,0 -23.031,2.702 -23.031,6.031l-0,0.656 20.125,20.594v23.343h5.406v-23.218l20.531,-20.719v-0.656c0,-3.33 -10.318,-6.031 -23.031,-6.031z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="8.125"
-      android:fillColor="#00000000"
-      android:strokeColor="#ffffff"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="m27.088,55.299l0,-23.34l-20.115,-20.58l46.054,0l-20.512,20.711l0,23.224l-5.427,-0.016z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="3.126"
-      android:fillColor="#ffffff"
-      android:strokeColor="#000000"
-      android:fillType="evenOdd"
-      android:strokeLineCap="round"/>
-  <path
-      android:pathData="m53.032,10.716c0,3.329 -10.317,6.031 -23.031,6.031s-23.032,-2.702 -23.032,-6.031c0,-3.329 10.318,-6.032 23.032,-6.032s23.031,2.702 23.031,6.032z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="3.125"
-      android:fillColor="#ffffff"
-      android:strokeColor="#000000"
-      android:fillType="evenOdd"/>
-  <path
-      android:pathData="m45.626,10.717c0,1.252 -7,2.269 -15.625,2.269s-15.625,-1.016 -15.625,-2.269c0,-1.254 7,-2.27 15.625,-2.27s15.625,1.016 15.625,2.27z"
-      android:fillColor="#000000"
-      android:fillType="evenOdd"/>
+      android:fillColor="#FFFFFFFF"
+      android:pathData="M288.95,0h-277c-5.52,0 -10,4.48 -10,10v49.53c0,5.52 4.48,10 10,10h12.37l91.38,107.4v113.98c0,3.69 2.03,7.08 5.28,8.82c1.48,0.79 3.1,1.18 4.72,1.18c1.94,0 3.88,-0.56 5.55,-1.68l49.5,-33c2.78,-1.85 4.45,-4.98 4.45,-8.32v-80.98l91.38,-107.4h12.37c5.52,0 10,-4.48 10,-10V10C298.95,4.48 294.48,0 288.95,0zM167.59,166.77c-1.54,1.81 -2.38,4.11 -2.38,6.48v79.31l-29.5,19.67V173.25c0,-2.38 -0.85,-4.67 -2.38,-6.48L50.58,69.53h199.74L167.59,166.77zM278.95,49.53h-257V20h257V49.53z"/>
 </vector>

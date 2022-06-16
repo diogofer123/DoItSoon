@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -124,6 +125,12 @@ class ListFragment : Fragment(R.layout.list_fragment),TaskAdapter.OnTaskClickedL
             addButton.setOnClickListener {
                 viewModel.onAddNewTaskEvent()
             }
+        }
+
+        setFragmentResultListener("add_edit_result"){
+            _, bundleOfData ->
+            val resultMessage = bundleOfData.getString("add_edit_result_message")
+            Snackbar.make(requireView(),resultMessage.toString(),Snackbar.LENGTH_LONG).show()
         }
     }
 

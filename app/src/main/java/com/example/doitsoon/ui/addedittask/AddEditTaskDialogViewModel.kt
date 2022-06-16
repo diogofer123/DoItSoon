@@ -39,10 +39,10 @@ class AddEditTaskDialogViewModel @Inject constructor(
             state.set("isPriority",value)//we saved our value on savedInstance state if we get out of the app it has something to read when we come back
         }
 
-
     fun onSaveClick() {
-        if(taskName.isEmpty()){
-            showInvalidMessage("Task name cannot be empty")
+        if(taskName.isBlank()){
+            showInvalidMessage()
+            return
         }
 
         if(task != null){
@@ -67,9 +67,9 @@ class AddEditTaskDialogViewModel @Inject constructor(
     }
 
 
-    private fun showInvalidMessage(invalidMessage: String)  =
+    private fun showInvalidMessage()  =
         viewModelScope.launch {
-            taskAddEditEventChannel.send(AddEditTaskEvents.ShowInvalidMessage(invalidMessage))
+            taskAddEditEventChannel.send(AddEditTaskEvents.ShowInvalidMessage("Task name cannot be empty"))
         }
 
 
