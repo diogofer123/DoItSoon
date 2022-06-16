@@ -5,29 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.addedittask.AddEditTaskDialogFragment"
+    android:layout_margin="10dp"
+    android:background="@drawable/background_border_1"
+    android:paddingBottom="10dp"
     >
-
-    <TextView
-        android:id="@+id/addEditTaskTextview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/taskTextview"
-        android:text="Add Task"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp"
-        />
-
-        <TextView
-            android:id="@+id/taskTextview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/editTextTask"
-            app:layout_constraintStart_toStartOf="@id/editTextTask"
-            android:layout_marginBottom="10dp"
-            android:text="Task"
-            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/editTextTask"
@@ -36,7 +17,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:hint="Write task"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             />
@@ -60,7 +42,7 @@
         />
 
     <ImageView
-
+        android:id="@+id/bellImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/textViewPriority"
@@ -74,19 +56,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/bellImage"
+        app:layout_constraintTop_toTopOf="@+id/bellImage"
+        android:layout_marginEnd="10dp"
         android:text="Save"/>
 
     <TextView
         android:id="@+id/createdTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="- Created:"
-        android:textSize="20dp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintStart_toEndOf="@id/taskTextview"
-        app:layout_constraintTop_toTopOf="@id/taskTextview"
+        tools:text="created"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@id/priorityCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/priorityCheckBox"
         android:layout_marginBottom="20dp"
         />
 
